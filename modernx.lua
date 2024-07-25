@@ -56,16 +56,16 @@ local user_opts = {
     dynamictitle = true,            -- change the title depending on if {media-title} and {filename} 
                                     -- differ (like with playing urls, audio or some media)
     updatetitleyoutubestats = true, -- update the window/OSC title bar with YouTube video stats (views, likes, dislikes)
-    font = 'mpv-osd-symbols',       -- mpv-osd-symbols = default osc font (or the one set in mpv.conf)
+    font = 'HarmonyOS Sans SC',     -- mpv-osd-symbols = default osc font (or the one set in mpv.conf)
                                     -- to be shown as OSC title
-    titlefontsize = 30,             -- the font size of the title text
+    titlefontsize = 32,             -- the font size of the title text
     chapterformat = 'Chapter: %s',  -- chapter print format for seekbar-hover. "no" to disable
     dateformat = "%Y-%m-%d",        -- how dates should be formatted, when read from metadata 
                                     -- (uses standard lua date formatting)
     osc_color = '000000',           -- accent of the OSC and the title bar, in format BBGGRR - http://www.tcax.org/docs/ass-specs.htm
     OSCfadealpha = 150,             -- alpha of the background box for the OSC
     boxalpha = 75,                  -- alpha of the window title bar
-    descriptionfontsize = 19,       -- alpha of the description background box
+    descriptionfontsize = 20,       -- alpha of the description background box
     descriptionBoxAlpha = 100,      -- alpha of the description background box
 
     -- seekbar settings --
@@ -77,13 +77,12 @@ local user_opts = {
     seekbarhandlesize = 0.8,        -- size ratio of the slider handle, range 0 ~ 1
     seekrange = true,               -- show seekrange overlay
     seekrangealpha = 150,           -- transparency of seekranges
-    iconstyle = 'round',            -- icon style, 'solid' or 'round'
     hovereffect = true,             -- whether buttons have a glowing effect when hovered over
 
     -- button settings --
     timetotal = true,               -- display total time instead of remaining time by default
     timems = false,                 -- show time as milliseconds by default
-    timefontsize = 18,              -- the font size of the time
+    timefontsize = 20,              -- the font size of the time
     jumpamount = 5,                 -- change the jump amount (in seconds by default)
     jumpiconnumber = true,          -- show different icon when jumpamount is 5, 10, or 30
     jumpmode = 'exact',             -- seek mode for jump buttons. e.g.
@@ -117,27 +116,27 @@ local jumpicons = {
 } 
 
 local icons = {
-  previous = '\239\142\181',
-  next = '\239\142\180',
-  play = '\239\142\170',
-  pause = '\239\142\167',
-  replay = '', -- copied private use character
-  backward = '\239\142\160',
-  forward = '\239\142\159',
-  audio = '\239\142\183',
-  volume = '\239\142\188',
-  volumelow = '\239\142\185',
-  volumemute = '\239\142\187',
-  sub = '\239\140\164',
-  minimize = '\239\133\172',
-  fullscreen = '\239\133\173',  
-  loopoff = '',
-  loopon = '', 
-  info = '\239\135\183',
-  download = '\239\136\160',
-  downloading = '\239\134\185',
-  ontopon = '\239\142\150',
-  ontopoff = '\239\142\149',
+  previous = '\u{e045}',
+  next = '\u{e044}',
+  play = '\u{E037}',
+  pause = '\u{e034}',
+  replay = '\u{e042}', -- copied private use character
+  backward = '\u{eac3}',
+  forward = '\u{eac9}',
+  audio = '\u{e405}',
+  volume = '\u{e050}',
+  volumelow = '\u{e04d}',
+  volumemute = '\u{e04f}',
+  sub = '\u{e01c}',
+  minimize = '\u{f1cf}',
+  fullscreen = '\u{e5d0}',  
+  loopoff = '\u{e628}',
+  loopon = '\u{e627}', 
+  info = '\u{e88e}',
+  download = '\u{f090}',
+  downloading = '\u{f001}',
+  ontopon = '\u{e6f9}',
+  ontopoff = '\u{e6aa}',
 }
 
 local emoticon = {
@@ -242,7 +241,8 @@ local osc_param = {                         -- calculated by osc_init()
     areas = {},
 }
 
-local iconfont = user_opts.iconstyle == 'round' and 'Material-Design-Iconic-Round' or 'Material-Design-Iconic-Font'
+-- local iconfont = user_opts.iconstyle == 'round' and 'Material-Design-Iconic-Round' or 'Material-Design-Iconic-Font'
+local iconfont = 'Material Symbols Rounded Filled 28pt'
 
 local osc_styles = {
     TransBg = "{\\blur100\\bord" .. user_opts.OSCfadealpha .. "\\1c&H000000&\\3c&H" .. user_opts.osc_color .. "&}",
@@ -250,10 +250,10 @@ local osc_styles = {
     SeekbarFg = "{\\blur1\\bord1\\1c&H" .. user_opts.seekbarfg_color .. "&}",
     VolumebarBg = '{\\blur0\\bord0\\1c&H999999&}',
     VolumebarFg = '{\\blur1\\bord1\\1c&HFFFFFF&}',
-    Ctrl1 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs36\\fn' .. iconfont .. '}',
-    Ctrl2 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fn' .. iconfont .. '}',
-    Ctrl2Flip = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fn' .. iconfont .. '\\fry180',
-    Ctrl3 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs24\\fn' .. iconfont .. '}',
+    Ctrl1 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs48\\fn' .. iconfont .. '}',
+    Ctrl2 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs36\\fn' .. iconfont .. '}',
+    Ctrl2Flip = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs28\\fn' .. iconfont .. '\\fry180',
+    Ctrl3 = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&HFFFFFF&\\fs28\\fn' .. iconfont .. '}',
     Time = '{\\blur0\\bord0\\1c&HFFFFFF&\\3c&H000000&\\fs' .. user_opts.timefontsize .. '\\fn' .. user_opts.font .. '}',
     Tooltip = '{\\blur1\\bord0.5\\1c&HFFFFFF&\\3c&H000000&\\fs' .. user_opts.timefontsize .. '\\fn' .. user_opts.font .. '}',
     Title = '{\\blur1\\bord0.5\\1c&HFFFFFF&\\3c&H0\\fs'.. user_opts.titlefontsize ..'\\q2\\fn' .. user_opts.font .. '}',
@@ -3349,26 +3349,26 @@ function render()
     end
 
     -- autohide
-    if not (state.showtime == nil) and (get_hidetimeout() >= 0) then
-        local timeout = state.showtime + (get_hidetimeout()/1000) - now
-        if timeout <= 0 then
-            if (state.active_element == nil) and (user_opts.bottomhover or not (mouse_over_osc)) then
-                if (not (state.paused and user_opts.donttimeoutonpause)) then
-                    hide_osc()
-                end
-            end
-        else
-            -- the timer is only used to recheck the state and to possibly run
-            -- the code above again
-            if not state.hide_timer then
-                state.hide_timer = mp.add_timeout(0, tick)
-            end
-            state.hide_timer.timeout = timeout
-            -- re-arm
-            state.hide_timer:kill()
-            state.hide_timer:resume()
-        end
-    end
+    -- if not (state.showtime == nil) and (get_hidetimeout() >= 0) then
+    --     local timeout = state.showtime + (get_hidetimeout()/1000) - now
+    --     if timeout <= 0 then
+    --         if (state.active_element == nil) and (user_opts.bottomhover or not (mouse_over_osc)) then
+    --             if (not (state.paused and user_opts.donttimeoutonpause)) then
+    --                 hide_osc()
+    --             end
+    --         end
+    --     else
+    --         -- the timer is only used to recheck the state and to possibly run
+    --         -- the code above again
+    --         if not state.hide_timer then
+    --             state.hide_timer = mp.add_timeout(0, tick)
+    --         end
+    --         state.hide_timer.timeout = timeout
+    --         -- re-arm
+    --         state.hide_timer:kill()
+    --         state.hide_timer:resume()
+    --     end
+    -- end
 
 
     -- actual rendering
@@ -3453,16 +3453,25 @@ function process_event(source, what)
         state.mouse_in_window = true
 
         local mouseX, mouseY = get_virt_mouse_pos()
-        if (user_opts.minmousemove == 0) or (not ((state.last_mouseX == nil) or (state.last_mouseY == nil)) and ((math.abs(mouseX - state.last_mouseX) >= user_opts.minmousemove) or (math.abs(mouseY - state.last_mouseY) >= user_opts.minmousemove))) then
-                if user_opts.bottomhover then -- if enabled, only show osc if mouse is hovering at the bottom of the screen (where the UI elements are)
-                    if (mouseY > osc_param.playresy - 200) or ((not state.border or state.fullscreen) and mouseY < 40) then -- account for scaling options
-                        show_osc()
-                    else
-                        hide_osc()
-                    end
-                else
-                    show_osc()
-                end
+        -- if (user_opts.minmousemove == 0) or (not ((state.last_mouseX == nil) or (state.last_mouseY == nil)) and ((math.abs(mouseX - state.last_mouseX) >= user_opts.minmousemove) or (math.abs(mouseY - state.last_mouseY) >= user_opts.minmousemove))) then
+        --         if user_opts.bottomhover then -- if enabled, only show osc if mouse is hovering at the bottom of the screen (where the UI elements are)
+        --             if (mouseY > osc_param.playresy - 200) or ((not state.border or state.fullscreen) and mouseY < 40) then -- account for scaling options
+        --                 show_osc()
+        --             else
+        --                 hide_osc()
+        --             end
+        --         else
+        --             show_osc()
+        --         end
+        -- end
+        if user_opts.bottomhover then -- if enabled, only show osc if mouse is hovering at the bottom of the screen (where the UI elements are)
+            if (mouseY > osc_param.playresy - 200) or ((not state.border or state.fullscreen) and mouseY < 40) then -- account for scaling options
+                show_osc()
+            else
+                hide_osc()
+            end
+        else
+            show_osc()
         end
         state.last_mouseX, state.last_mouseY = mouseX, mouseY
 
